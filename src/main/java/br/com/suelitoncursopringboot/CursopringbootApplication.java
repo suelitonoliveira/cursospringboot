@@ -1,6 +1,6 @@
 package br.com.suelitoncursopringboot;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.suelitoncursopringboot.domain.Categoria;
 import br.com.suelitoncursopringboot.domain.Cidade;
+import br.com.suelitoncursopringboot.domain.Cliente;
+import br.com.suelitoncursopringboot.domain.Endereco;
 import br.com.suelitoncursopringboot.domain.Estado;
 import br.com.suelitoncursopringboot.domain.Produto;
+import br.com.suelitoncursopringboot.domain.enums.TipoCliente;
 import br.com.suelitoncursopringboot.repositories.CategoriaRepository;
 import br.com.suelitoncursopringboot.repositories.CidadeRepository;
+import br.com.suelitoncursopringboot.repositories.ClienteRepository;
 import br.com.suelitoncursopringboot.repositories.EstadoRepository;
 import br.com.suelitoncursopringboot.repositories.ProdutoRepository;
 
@@ -32,6 +36,8 @@ public class CursopringbootApplication implements CommandLineRunner {
 	@Autowired
 	private CidadeRepository cidadeRepostory;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
 	
 
 	public static void main(String[] args) {
@@ -70,6 +76,18 @@ public class CursopringbootApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
 		cidadeRepostory.saveAll(Arrays.asList(c1,c2,c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "61130604039", "maria@gmail.com", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("9999999997","98984984"));
+		
+		clienteRepository.save(cli1);
+		
+		
+		/*
+		 * Endereco e1= new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim",
+		 * "38220834", cli1, c1); Endereco e2 = new Endereco(id, logradouro, numero,
+		 * complemento, bairro, cep, cliente, cidade)
+		 */
 		
 	}
 	
