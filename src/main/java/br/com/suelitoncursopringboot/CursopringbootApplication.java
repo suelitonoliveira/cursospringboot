@@ -1,5 +1,6 @@
 package br.com.suelitoncursopringboot;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import br.com.suelitoncursopringboot.domain.Cidade;
 import br.com.suelitoncursopringboot.domain.Cliente;
 import br.com.suelitoncursopringboot.domain.Endereco;
 import br.com.suelitoncursopringboot.domain.Estado;
+import br.com.suelitoncursopringboot.domain.Pagamento;
+import br.com.suelitoncursopringboot.domain.PagamentoComBoleto;
+import br.com.suelitoncursopringboot.domain.PagamentoComCartao;
+import br.com.suelitoncursopringboot.domain.Pedido;
 import br.com.suelitoncursopringboot.domain.Produto;
+import br.com.suelitoncursopringboot.domain.enums.EstadoPagamento;
 import br.com.suelitoncursopringboot.domain.enums.TipoCliente;
 import br.com.suelitoncursopringboot.repositories.CategoriaRepository;
 import br.com.suelitoncursopringboot.repositories.CidadeRepository;
 import br.com.suelitoncursopringboot.repositories.ClienteRepository;
 import br.com.suelitoncursopringboot.repositories.EnderecoRepository;
 import br.com.suelitoncursopringboot.repositories.EstadoRepository;
+import br.com.suelitoncursopringboot.repositories.PagamentoRepository;
+import br.com.suelitoncursopringboot.repositories.PedidoRepository;
 import br.com.suelitoncursopringboot.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -41,6 +49,10 @@ public class CursopringbootApplication implements CommandLineRunner {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursopringbootApplication.class, args);
@@ -81,16 +93,30 @@ public class CursopringbootApplication implements CommandLineRunner {
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "61130604039", "maria@gmail.com", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("9999999997", "98984984"));
-
 		clienteRepository.save(cli1);
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 		Endereco e2 = new Endereco(null, "logradouro", "numero", "complemento", " bairro", "cep", cli1, c2);
-		
-		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
 
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 10:32"), cli1, e2);
+
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("1220/10/2017 00:00"),
+				null);
+		ped2.setPagamento(pagto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 	}
 
 }
