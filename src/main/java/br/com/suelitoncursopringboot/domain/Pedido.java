@@ -40,7 +40,6 @@ public class Pedido implements Serializable {
 		super();
 		this.id = id;
 		this.instante = instante;
-		
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
