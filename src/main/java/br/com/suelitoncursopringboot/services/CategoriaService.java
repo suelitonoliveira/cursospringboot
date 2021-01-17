@@ -1,5 +1,6 @@
 package br.com.suelitoncursopringboot.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -46,6 +47,10 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possivel excluir uma categoria com produtos associados");
 		}
 
+	}
+	
+	public List<Categoria> findAll(){
+		return repo.findAll();
 	}
 	
 }
