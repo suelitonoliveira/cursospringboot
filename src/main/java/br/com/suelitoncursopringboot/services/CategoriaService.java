@@ -2,11 +2,15 @@ package br.com.suelitoncursopringboot.services;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.suelitoncursopringboot.domain.Categoria;
 import br.com.suelitoncursopringboot.repositories.CategoriaRepository;
+import br.com.suelitoncursopringboot.services.exceptions.DataIntegrityException;
 import br.com.suelitoncursopringboot.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -31,6 +35,17 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	@Transactional
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possivel excluir uma categoria com produtos associados");
+		}
+
 	}
 	
 }
