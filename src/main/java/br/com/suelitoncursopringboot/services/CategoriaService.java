@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.suelitoncursopringboot.domain.Categoria;
+import br.com.suelitoncursopringboot.dto.CategoriaDTO;
 import br.com.suelitoncursopringboot.repositories.CategoriaRepository;
 import br.com.suelitoncursopringboot.services.exceptions.DataIntegrityException;
 import br.com.suelitoncursopringboot.services.exceptions.ObjectNotFoundException;
@@ -61,6 +62,9 @@ public class CategoriaService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+	}
 	
 	
 }
