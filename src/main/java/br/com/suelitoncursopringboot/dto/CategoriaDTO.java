@@ -5,6 +5,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.safeguard.constraint.annotations.Verify;
+import br.com.safeguard.types.ParametroTipo;
 import br.com.suelitoncursopringboot.domain.Categoria;
 
 public class CategoriaDTO implements Serializable {
@@ -14,6 +16,10 @@ public class CategoriaDTO implements Serializable {
 	@NotEmpty(message = "Preenchimento obrigatório")
 	@Length(min = 5, max=80, message = "O tamnho deve ser entre 5 e 80 caracteres")
 	private String nome;
+	@Verify(ParametroTipo.TELEFONE)
+	private String foneBrasil;
+	@Verify(ParametroTipo.TELEFONE_FORMATADO_INTERNACIONAL)
+	private String foneInternacional;
 
 	public CategoriaDTO() {
 
@@ -38,6 +44,22 @@ public class CategoriaDTO implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getFoneBrasil() {
+		return foneBrasil;
+	}
+
+	public void setFoneBrasil(String foneBrasil) {
+		this.foneBrasil = foneBrasil;
+	}
+
+	public String getFoneInternacional() {
+		return foneInternacional;
+	}
+
+	public void setFoneInternacional(String foneInternacional) {
+		this.foneInternacional = foneInternacional;
 	}
 
 }
