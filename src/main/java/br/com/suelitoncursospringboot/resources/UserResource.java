@@ -17,12 +17,13 @@ import br.com.suelitoncursospringboot.repositories.UserRepository;
 import br.com.suelitoncursospringboot.util.FileUploadUtil;
 
 @RestController
+@RequestMapping("/fotos")
 public class UserResource {
 
 	@Autowired
 	private UserRepository repo;
 
-	@PostMapping("/users/save")
+	@PostMapping("/upload")
 	public RedirectView saveUser(User user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
 
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
