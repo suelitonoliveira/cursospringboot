@@ -9,6 +9,8 @@ import java.nio.file.StandardCopyOption;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import br.com.suelitoncursopringboot.domain.Foto;
  
 @Service
 public class FileUploadUtil {
@@ -28,6 +30,11 @@ public class FileUploadUtil {
             throw new IOException("Could not save image file: " + fileName, ioe);
         }      
     }
+
+	public Foto save(Foto foto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

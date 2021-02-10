@@ -39,10 +39,10 @@ public class FotosResource {
 
 	@PostMapping("/fotos/save")
 	public String updateFoto(@ModelAttribute(name = "foto") Foto foto, RedirectAttributes ra,
-			@RequestParam("file") MultipartFile multpartFile) throws IOException {
+			@RequestParam("fileImage") MultipartFile multpartFile) throws IOException {
 		String fileName = StringUtils.cleanPath(multpartFile.getOriginalFilename());
 		foto.setLogo(fileName);
-		Foto savedFoto =  fotoService.saveFile(foto);
+		Foto savedFoto =  fotoService.save(foto);
 		String uploadDir = "/imagem-logos/" + savedFoto.getId();
 		Path uploadPath = Paths.get(uploadDir);
 		if (!Files.exists(uploadPath)) {
