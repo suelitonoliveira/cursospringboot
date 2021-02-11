@@ -1,7 +1,5 @@
 package br.com.suelitoncursospringboot.resources.exceptions;
 
-import java.io.FileDescriptor;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import br.com.suelitoncursospringboot.services.exceptions.DataIntegrityException;
 import br.com.suelitoncursospringboot.services.exceptions.ObjectNotFoundException;
@@ -41,6 +40,17 @@ public class ResourceExceptionHandler {
 		for (FieldError x : e.getBindingResult().getFieldErrors()) {
 			err.addError(x.getField(), x.getDefaultMessage());
 		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	public ResponseEntity<StandardError> handleFileUploadException(MaxUploadSizeExceededException e,
+			HttpServletRequest request) {
+
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(),
+				"File Size Limit exceeded. Please make sure the file size is well within 128KB.",
+				System.currentTimeMillis());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}

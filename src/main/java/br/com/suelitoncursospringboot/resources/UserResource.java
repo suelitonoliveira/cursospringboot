@@ -24,7 +24,7 @@ public class UserResource {
 	private UserRepository repo;
 
 	@PostMapping("/upload")
-	public RedirectView saveUser(User user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+	public RedirectView saveUser(User user, @RequestParam("file") MultipartFile multipartFile) throws IOException {
 
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		user.setPhotos(fileName);
